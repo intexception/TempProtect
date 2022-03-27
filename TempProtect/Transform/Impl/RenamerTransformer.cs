@@ -7,17 +7,19 @@ using dnlib.DotNet;
 
 namespace TempProtect.Transform.Impl
 {
-    internal sealed class RenamerTransformer : Transformer 
+    internal sealed class RenamerTransformer : Transformer
     {
+	    private Random random;
         public RenamerTransformer(ModuleDefMD module) : base(module, "Renamer", TransformType.RENAME)
         {
             this.Module = module;
+            random = new Random();
         }
 
         string GetRandomNumber(int length)
         {
-            const string chars = "1234567890";
-            return new string(Enumerable.Repeat(chars, length).Select(s => s[new Random().Next(s.Length)]).ToArray());
+	        const string chars = "0123456789";
+	        return new string(Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
         public enum RenameVariant
